@@ -76,35 +76,33 @@ void AMDRadeonX5000_AMDGFX9DCNDisplay::setVrrTimestampInfoVentura(AMDRadeonX5000
                                                                   const UInt64 vTotalMin, const UInt64 vTotalMax,
                                                                   const UInt64 horizontalLineTime)
 {
-    assert(currentKernelVersion() >= MACOS_13);
-
-    self.vrrTimestampInfoVentura().lastTransactionTimestamp   = 0;
-    self.vrrTimestampInfoVentura().currentFrameStartTimestamp = 0;
-    self.vrrTimestampInfoVentura().lastTransactionStartTime   = 0;
-    self.vrrTimestampInfoVentura().currentFrameVTotal         = vTotalMin;
-    self.vrrTimestampInfoVentura().horizontalLineTime         = horizontalLineTime;
-    self.vrrTimestampInfoVentura().currentFrameTime           = 0;
-    self.vrrTimestampInfoVentura().vTotalMin                  = vTotalMin;
-    self.vrrTimestampInfoVentura().vTotalMax                  = vTotalMax;
-    self.vrrTimestampInfoVentura().transactionOnGlassTime     = 0;
+    auto& vrrTimestampInfo                      = self.vrrTimestampInfoVentura();
+    vrrTimestampInfo.lastTransactionTimestamp   = 0;
+    vrrTimestampInfo.currentFrameStartTimestamp = 0;
+    vrrTimestampInfo.lastTransactionStartTime   = 0;
+    vrrTimestampInfo.currentFrameVTotal         = vTotalMin;
+    vrrTimestampInfo.horizontalLineTime         = horizontalLineTime;
+    vrrTimestampInfo.currentFrameTime           = 0;
+    vrrTimestampInfo.vTotalMin                  = vTotalMin;
+    vrrTimestampInfo.vTotalMax                  = vTotalMax;
+    vrrTimestampInfo.transactionOnGlassTime     = 0;
 }
 
 void AMDRadeonX5000_AMDGFX9DCNDisplay::setVrrTimestampInfo(AMDRadeonX5000_AMDGFX9DCNDisplay& self,
                                                            const UInt64 vTotalMin, const UInt64 vTotalMax,
                                                            const UInt64 horizontalLineTime)
 {
-    assert(currentKernelVersion() < MACOS_13);
-
-    self.vrrTimestampInfo().field0                     = 0;
-    self.vrrTimestampInfo().lastTransactionTimestamp   = 0;
-    self.vrrTimestampInfo().currentFrameStartTimestamp = 0;
-    self.vrrTimestampInfo().lastTransactionStartTime   = 0;
-    self.vrrTimestampInfo().currentFrameVTotal         = static_cast<UInt32>(vTotalMin);
-    self.vrrTimestampInfo().horizontalLineTime         = static_cast<UInt32>(horizontalLineTime);
-    self.vrrTimestampInfo().currentFrameTime           = 0;
-    self.vrrTimestampInfo().vTotalMin                  = static_cast<UInt32>(vTotalMin);
-    self.vrrTimestampInfo().vTotalMax                  = static_cast<UInt32>(vTotalMax);
-    self.vrrTimestampInfo().transactionOnGlassTime     = 0;
+    auto& vrrTimestampInfo                      = self.vrrTimestampInfo();
+    vrrTimestampInfo.field0                     = 0;
+    vrrTimestampInfo.lastTransactionTimestamp   = 0;
+    vrrTimestampInfo.currentFrameStartTimestamp = 0;
+    vrrTimestampInfo.lastTransactionStartTime   = 0;
+    vrrTimestampInfo.currentFrameVTotal         = static_cast<UInt32>(vTotalMin);
+    vrrTimestampInfo.horizontalLineTime         = static_cast<UInt32>(horizontalLineTime);
+    vrrTimestampInfo.currentFrameTime           = 0;
+    vrrTimestampInfo.vTotalMin                  = static_cast<UInt32>(vTotalMin);
+    vrrTimestampInfo.vTotalMax                  = static_cast<UInt32>(vTotalMax);
+    vrrTimestampInfo.transactionOnGlassTime     = 0;
 }
 
 void AMDRadeonX5000_AMDGFX9DCNDisplay::calcAndSetVrrTimestampInfo(AMDRadeonX5000_AMDGFX9DCNDisplay& self,
@@ -120,9 +118,11 @@ void AMDRadeonX5000_AMDGFX9DCNDisplay::calcAndSetVrrTimestampInfo(AMDRadeonX5000
     const auto pixelClock = timingInfo.detailedInfo.v2.pixelClock;
     if (pixelClock == 0) { constants.setVrrTimestampInfo(self, vTotalMin, vTotalMax, 0); }
     else {
-        constants.setVrrTimestampInfo(
-            self, vTotalMin, vTotalMax,
-            (timingInfo.detailedInfo.v2.horizontalBlanking + timingInfo.detailedInfo.v2.horizontalActive) / pixelClock);
+        const auto hTotal = timingInfo.detailedInfo.v2.horizontalBlanking + timingInfo.detailedInfo.v2.horizontalActive;
+        const auto hLineTimeNs = static_cast<UInt64>(hTotal) * 1000000000ULL / pixelClock;
+        UInt64     horizontalLineTime;
+        nanoseconds_to_absolutetime(hLineTimeNs, &horizontalLineTime);
+        constants.setVrrTimestampInfo(self, vTotalMin, vTotalMax, horizontalLineTime);
     }
 }
 
