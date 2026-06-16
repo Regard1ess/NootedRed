@@ -26,9 +26,6 @@ class Backlight
     IONotifier*                   dispNotif{nullptr};
     void*                         embeddedPanelLink{nullptr};
     bool                          supportsAUX{false};
-    t_DceDriverSetBacklight       orgDceDriverSetBacklight{nullptr};
-    mach_vm_address_t             orgDcePanelCntlHwInit{0};
-    void*                         panelCntlPtr{nullptr};
     mach_vm_address_t             orgLinkCreate{0};
     t_DcLinkSetBacklightLevel     orgDcLinkSetBacklightLevel{0};
     t_DcLinkSetBacklightLevelNits orgDcLinkSetBacklightLevelNits{0};
@@ -48,7 +45,6 @@ public:
 private:
     static bool OnAppleBacklightDisplayLoad(void* target, void* refCon, IOService* newService, IONotifier* notifier);
 
-    static UInt32   wrapDcePanelCntlHwInit(void* panelCntl);
     static void*    wrapLinkCreate(void* data);
     static IOReturn wrapSetAttributeForConnection(IOService* framebuffer, IOIndex connectIndex, IOSelect attribute,
                                                   uintptr_t value);
