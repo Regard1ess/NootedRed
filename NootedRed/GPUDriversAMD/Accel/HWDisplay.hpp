@@ -256,7 +256,7 @@ struct AMDHWDisplayState
             return *this;
         }
 
-#define _GET_SET(_N, _S)                                                 \
+#define GET_SET_(_N, _S)                                                 \
     bool is##_N() const { return ((this->bits >> (_S)) & 1) != 0; }      \
                                                                          \
     void setIs##_N(const bool value)                                     \
@@ -267,8 +267,8 @@ struct AMDHWDisplayState
         }                                                                \
     }
 
-#define GET_SET_ALL(_N, _S) _GET_SET(_N, getBit<UInt32>(IS_##_S##_SHIFT))
-#define GET_SET(_N)         _GET_SET(_N, constants.is##_N##Shift)
+#define GET_SET_ALL(_N, _S) GET_SET_(_N, getBit<UInt32>(IS_##_S##_SHIFT))
+#define GET_SET(_N)         GET_SET_(_N, constants.is##_N##Shift)
 
         GET_SET_ALL(Enabled, ENABLED)
         GET_SET_ALL(Interlaced, INTERLACED)
@@ -278,7 +278,7 @@ struct AMDHWDisplayState
         GET_SET(WSAASupported)
         GET_SET(DPTSupported)
 
-#undef _GET_SET
+#undef GET_SET_
 #undef GET_SET_ALL
 #undef GET_SET
     } status;
