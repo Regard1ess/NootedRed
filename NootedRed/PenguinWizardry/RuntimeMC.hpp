@@ -15,7 +15,7 @@
                                                                                 \
     static OSMetaClass* getMetaClass(const _cls* self);
 #define PWDefineRuntimeMC(_cls, _ctor, ...)                                                    \
-    DEFINE_TYPE_NAME(_cls);                                                                    \
+    DEFINE_TYPE_NAME(_cls)                                                                     \
                                                                                                \
     PenguinWizardry::RuntimeMC<_cls, _cls::_ctor, ##__VA_ARGS__> _cls::gRTMetaClass;           \
                                                                                                \
@@ -34,7 +34,7 @@
                                                                      \
     _exp& getExpansion() { return gRTMetaClass.getExpansion(this); }
 #define PWDefineAbstractRuntimeMC(_cls, ...)                                        \
-    DEFINE_TYPE_NAME(_cls);                                                         \
+    DEFINE_TYPE_NAME(_cls)                                                          \
                                                                                     \
     PenguinWizardry::RuntimeMC<_cls, nullptr, ##__VA_ARGS__> _cls::gRTMetaClass { }
 #define PWDefineAbstractRuntimeMCWithExpansion(_cls, _exp) PWDefineAbstractRuntimeMC(_cls, _cls::_exp)
@@ -154,4 +154,4 @@ namespace PenguinWizardry
         }
     };
 
-};    // namespace PenguinWizardry
+}    // namespace PenguinWizardry

@@ -442,7 +442,7 @@ static const UInt8 kCailQueryAdapterInfoPatched[]  = {0x83, 0xC0, 0x91, 0x83, 0x
 
 static iVega::X5000HWLibs moduleInstance;
 
-iVega::X5000HWLibs& iVega::X5000HWLibs::singleton() { return moduleInstance; };
+iVega::X5000HWLibs& iVega::X5000HWLibs::singleton() { return moduleInstance; }
 
 iVega::X5000HWLibs::X5000HWLibs()
 {

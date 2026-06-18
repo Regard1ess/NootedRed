@@ -30,4 +30,4 @@ namespace Hotfixes
         static UInt32 wrapGetNumberOfConnectors(void* self);
     };
 
-};    // namespace Hotfixes
+}    // namespace Hotfixes

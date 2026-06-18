@@ -55,4 +55,4 @@ namespace iVega
         static bool wrapAddDrivers(void* self, OSArray* array, const bool doNubMatching);
     };
 
-};    // namespace iVega
+}    // namespace iVega

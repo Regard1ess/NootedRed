@@ -41,4 +41,4 @@ namespace iVega
         static IOReturn getTriageHardwareDataRN(void* const self, const UInt32 fbIndex, void* const triageData);
     };
 
-};    // namespace iVega
+}    // namespace iVega

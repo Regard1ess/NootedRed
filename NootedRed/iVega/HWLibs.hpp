@@ -94,4 +94,4 @@ namespace iVega
                                                           UInt32 verPatch);
     };
 
-};    // namespace iVega
+}    // namespace iVega

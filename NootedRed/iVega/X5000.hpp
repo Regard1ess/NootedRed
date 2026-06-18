@@ -61,4 +61,4 @@ namespace iVega
         static UInt32 computeSubmitCommandBuffer(void* self, void* info);
     };
 
-};    // namespace iVega
+}    // namespace iVega

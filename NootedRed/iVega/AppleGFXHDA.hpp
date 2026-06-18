@@ -94,4 +94,4 @@ namespace iVega
         static void*      wrapCreateAppleHDAWidget(void* devId);
     };
 
-};    // namespace iVega
+}    // namespace iVega

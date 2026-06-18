@@ -270,13 +270,13 @@ struct AMDHWDisplayState
 #define GET_SET_ALL(_N, _S) _GET_SET(_N, getBit<UInt32>(IS_##_S##_SHIFT))
 #define GET_SET(_N)         _GET_SET(_N, constants.is##_N##Shift)
 
-        GET_SET_ALL(Enabled, ENABLED);
-        GET_SET_ALL(Interlaced, INTERLACED);
-        GET_SET_ALL(BuiltIn, BUILT_IN);
-        GET_SET(AccelBacked);
-        GET_SET(IOFBFlipEnabled);
-        GET_SET(WSAASupported);
-        GET_SET(DPTSupported);
+        GET_SET_ALL(Enabled, ENABLED)
+        GET_SET_ALL(Interlaced, INTERLACED)
+        GET_SET_ALL(BuiltIn, BUILT_IN)
+        GET_SET(AccelBacked)
+        GET_SET(IOFBFlipEnabled)
+        GET_SET(WSAASupported)
+        GET_SET(DPTSupported)
 
 #undef _GET_SET
 #undef GET_SET_ALL
