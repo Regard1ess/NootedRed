@@ -22,7 +22,7 @@ bool PenguinWizardry::PatternSolveRequest::solve(KernelPatcher& patcher, const s
             *this->address = patcher.solveSymbol(id, this->symbol, start, size, true);
         }
         if (*this->address != 0) { return true; }
-        SYSLOG("Patcher+", "Failed to solve `%s` using symbol: %d", this->symbol, patcher.getError());
+        SYSLOG("Patcher+", "Failed to solve `%s` using symbol: %d", this->symbol, static_cast<int>(patcher.getError()));
     }
 
     if (this->pattern == nullptr || this->patternSize == 0) {
@@ -77,7 +77,8 @@ bool PenguinWizardry::PatternRouteRequest::route(KernelPatcher& patcher, const s
     if (this->from == 0) {
         if (this->pattern == nullptr || this->patternSize == 0) {
             assert(this->symbol != nullptr);
-            SYSLOG("Patcher+", "Failed to route `%s` using symbol: %d", this->symbol, patcher.getError());
+            SYSLOG("Patcher+", "Failed to route `%s` using symbol: %d", this->symbol,
+                   static_cast<int>(patcher.getError()));
             return false;
         }
         DBGLOG("Patcher+", "Failed to solve `%s` using symbol: %d. Attempting to use pattern.",
