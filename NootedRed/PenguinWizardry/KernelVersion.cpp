@@ -10,7 +10,7 @@
 
 alignas(PenguinWizardry::KernelVersion) static UInt8 _currentKernelVersion[sizeof(PenguinWizardry::KernelVersion)];
 
-[[gnu::constructor(999)]]
+[[gnu::constructor(101)]]
 static void _GLOBAL_initCurrentKernelVersion()
 {
     new (_currentKernelVersion)
