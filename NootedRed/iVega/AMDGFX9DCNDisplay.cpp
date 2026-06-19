@@ -565,9 +565,9 @@ void AMDRadeonX5000_AMDGFX9DCNDisplay::fillFlipTilingParameters(AMDFlipParam* co
 
 bool AMDRadeonX5000_AMDGFX9DCNDisplay::writeFlipParameters(
     AMDRadeonX5000_AMDGFX9DCNDisplay* const self, AMDPipeFlip* const flip, const UInt32 fbIndex,
-    const UInt64 offsetLeft, const UInt64 offsetRight, const AMDSwapInterval swapInterval, const UInt32 pitch,
-    const AMDTilingInfo* const tileInfo, const ATIFormat atiFormat, const UInt32, AMDHWRotationAngle* const hwRotation,
-    AMDPipeFlip* const savedFlip)
+    const UInt64 offsetLeft, [[maybe_unused]] const UInt64 offsetRight, const AMDSwapInterval swapInterval,
+    const UInt32 pitch, const AMDTilingInfo* const tileInfo, const ATIFormat atiFormat, const UInt32,
+    AMDHWRotationAngle* const hwRotation, AMDPipeFlip* const savedFlip)
 {
     assert(offsetRight == 0);
 
@@ -694,8 +694,9 @@ void AMDRadeonX5000_AMDGFX9DCNDisplay::getDisplayModeViewportSpecificInfo(AMDRad
 
 UInt32 AMDRadeonX5000_AMDGFX9DCNDisplay::writeFlipControlRegisters(AMDRadeonX5000_AMDGFX9DCNDisplay* const self,
                                                                    const UInt32 fbIndex, UInt32* const buffer,
-                                                                   const AMDSwapInterval swapInterval,
-                                                                   const UInt64 offsetLeft, const UInt64 offsetRight)
+                                                                   const AMDSwapInterval         swapInterval,
+                                                                   const UInt64                  offsetLeft,
+                                                                   [[maybe_unused]] const UInt64 offsetRight)
 {
     assert(offsetRight == 0);
 
