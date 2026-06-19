@@ -59,12 +59,7 @@ namespace PenguinWizardry
         RuntimeVFT<vftSize> vft;
         OSMetaClass*        mc{nullptr};
 
-        virtual ~RuntimeMCBase()
-        {
-            MetaClassDestructor(this->mc);
-            // intentional leak, meta classes don't get deallocated
-        }
-
+        virtual ~RuntimeMCBase();
         virtual UInt32      getExpansionSize() const = 0;
         virtual const char* getClassName() const     = 0;
         virtual void        populateVFT()            = 0;

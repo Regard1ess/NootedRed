@@ -12,6 +12,12 @@
 #include <libkern/c++/OSMetaClass.h>
 #include <mach/i386/vm_types.h>
 
+PenguinWizardry::RuntimeMCBase::~RuntimeMCBase()
+{
+    MetaClassDestructor(this->mc);
+    // intentional leak, meta classes don't get deallocated
+}
+
 static PenguinWizardry::RuntimeMCManager moduleInstance;
 
 PenguinWizardry::RuntimeMCManager& PenguinWizardry::RuntimeMCManager::singleton() { return moduleInstance; }
