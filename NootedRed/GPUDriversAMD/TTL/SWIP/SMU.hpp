@@ -10,13 +10,7 @@
 #include <IOKit/IOTypes.h>
 
 inline CAILResult processSMUFWResponse(const UInt32 msg, const UInt32 value)
-inline CAILResult processSMUFWResponse(const UInt32 msg, const UInt32 value)
 {
-    if (value > 1 && value != 0xFFFFFFFF) {
-        SYSLOG("CAIL", "Spoofing success for unknown SMU command 0x%X with response 0x%X", msg, value);
-        return kCAILResultOK;
-    }
-
     switch (value) {
         case kSMUFWResponseNoResponse: return kCAILResultNoResponse;
         case kSMUFWResponseSuccess:    return kCAILResultOK;
@@ -26,15 +20,17 @@ inline CAILResult processSMUFWResponse(const UInt32 msg, const UInt32 value)
         case kSMUFWResponseRejectedPrereq:
             SYSLOG("CAIL", "SMU FW command 0x%X rejected; prerequisite was not satisfied", msg);
             return kCAILResultInvalidParameters;
+        
         case kSMUFWResponseUnknownCommand:
-            SYSLOG("CAIL", "Unknown SMU FW command 0x%X", msg);
-            return kCAILResultUnsupported;
+            SYSLOG("CAIL", "Spoofing success for unknown SMU command 0x%X", msg);
+            return kCAILResultOK; 
+            
         case kSMUFWResponseFailed:
             SYSLOG("CAIL", "SMU FW command 0x%X failed", msg);
             return kCAILResultInvalidParameters;
         default:
             SYSLOG("CAIL", "Unknown SMU FW response %d for command 0x%X", value, msg);
-            return kCAILResultInvalidParameters;
+            return kCAILResultOK;
     }
 }
 
