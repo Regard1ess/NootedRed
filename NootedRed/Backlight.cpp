@@ -95,20 +95,20 @@ void Backlight::processKext(KernelPatcher& patcher, const size_t id, const mach_
         if (currentKernelVersion() >= MACOS_14_4) {
             PenguinWizardry::PatternSolveRequest solveRequest{
                 "_dc_link_set_backlight_level", this->orgDcLinkSetBacklightLevel, kDcLinkSetBacklightLevelPattern1404};
-            PANIC_COND(!solveRequest.solve(patcher, id, slide, size), "Backlight",
+            SYSLOG_COND(!solveRequest.solve(patcher, id, slide, size), "Backlight",
                        "Failed to resolve dc_link_set_backlight_level");
         }
         else {
             PenguinWizardry::PatternSolveRequest solveRequest{
                 "_dc_link_set_backlight_level", this->orgDcLinkSetBacklightLevel, kDcLinkSetBacklightLevelPattern};
-            PANIC_COND(!solveRequest.solve(patcher, id, slide, size), "Backlight",
+            SYSLOG_COND(!solveRequest.solve(patcher, id, slide, size), "Backlight",
                        "Failed to resolve dc_link_set_backlight_level");
         }
 
         PenguinWizardry::PatternSolveRequest solveRequest{
             "_dc_link_set_backlight_level_nits", this->orgDcLinkSetBacklightLevelNits,
             kDcLinkSetBacklightLevelNitsPattern, kDcLinkSetBacklightLevelNitsPatternMask};
-        PANIC_COND(!solveRequest.solve(patcher, id, slide, size), "Backlight",
+        SYSLOG_COND(!solveRequest.solve(patcher, id, slide, size), "Backlight",
                    "Failed to resolve dc_link_set_backlight_level_nits");
         PenguinWizardry::PatternRouteRequest requests[] = {
             {"_link_create", wrapLinkCreate, this->orgLinkCreate, kLinkCreatePattern, kLinkCreatePatternMask},
@@ -117,7 +117,7 @@ void Backlight::processKext(KernelPatcher& patcher, const size_t id, const mach_
             {"__ZN35AMDRadeonX6000_AmdRadeonFramebuffer25getAttributeForConnectionEijPm", wrapGetAttributeForConnection,
              this->orgGetAttributeForConnection},
         };
-        PANIC_COND(!PenguinWizardry::PatternRouteRequest::routeAll(patcher, id, requests, slide, size), "Backlight",
+        SYSLOG_COND(!PenguinWizardry::PatternRouteRequest::routeAll(patcher, id, requests, slide, size), "Backlight",
                    "Failed to route backlight symbols");
     }
     else if (kextAppleBacklight.loadIndex == id) {
