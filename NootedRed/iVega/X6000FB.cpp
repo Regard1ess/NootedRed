@@ -209,10 +209,10 @@ void iVega::X6000FB::processKext(KernelPatcher& patcher, size_t id, mach_vm_addr
          this->mapMemorySubRange},
         {"__ZTV32AMDRadeonX6000_AmdAsicInfoNavi10", orgAmdAsicInfoNavi10VT},
     };
-    PANIC_COND(!PenguinWizardry::PatternSolveRequest::solveAll(patcher, id, solveRequests, slide, size), "X6000FB",
+    SYSLOG_COND(!PenguinWizardry::PatternSolveRequest::solveAll(patcher, id, solveRequests, slide, size), "X6000FB",
                "Failed to resolve symbols");
 
-    PANIC_COND(MachInfo::setKernelWriting(true, KernelPatcher::kernelWriteLock) != KERN_SUCCESS, "X6000FB",
+    SYSLOG_COND(MachInfo::setKernelWriting(true, KernelPatcher::kernelWriteLock) != KERN_SUCCESS, "X6000FB",
                "Failed to enable kernel writing");
     getMember<decltype(getGpuBrandingNameListRenoir)*>(orgAmdAsicInfoNavi10VT, 0x228) =
         NRed::singleton().getAttributes().isRenoir()  ? getGpuBrandingNameListRenoir :
