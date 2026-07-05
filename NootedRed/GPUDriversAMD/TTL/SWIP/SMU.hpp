@@ -11,6 +11,11 @@
 
 inline CAILResult processSMUFWResponse(const UInt32 msg, const UInt32 value)
 {
+    if (value == kCAILResultUnknownCommand) {
+        SYSLOG("CAIL", "Spoofing success for unknown SMU command 0x%X", msg);
+        return kCAILResultOK;
+    }
+
     switch (value) {
         case kSMUFWResponseNoResponse: return kCAILResultNoResponse;
         case kSMUFWResponseSuccess   : return kCAILResultOK;
