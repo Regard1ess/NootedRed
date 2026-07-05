@@ -553,7 +553,7 @@ void iVega::X5000HWLibs::processKext(KernelPatcher& patcher, const size_t id, co
             {"__ZN20AMDFirmwareDirectory11putFirmwareE16_AMD_DEVICE_TYPEP11AMDFirmware", this->orgPutFirmware,
              kPutFirmwarePattern},
         };
-        PANIC_COND(!PenguinWizardry::PatternSolveRequest::solveAll(patcher, id, solveRequests, slide, size), "HWLibs",
+        SYSLOG_COND(!PenguinWizardry::PatternSolveRequest::solveAll(patcher, id, solveRequests, slide, size), "HWLibs",
                    "Failed to resolve symbols");
     }
 
@@ -562,13 +562,13 @@ void iVega::X5000HWLibs::processKext(KernelPatcher& patcher, const size_t id, co
         {"_CAILAsicCapsInitTable", orgCapsInitTable, kCAILAsicCapsInitTablePattern},
         {"_DeviceCapabilityTbl", orgDevCapTable, kDeviceCapabilityTblPattern},
     };
-    PANIC_COND(!PenguinWizardry::PatternSolveRequest::solveAll(patcher, id, solveRequests, slide, size), "HWLibs",
+    SYSLOG_COND(!PenguinWizardry::PatternSolveRequest::solveAll(patcher, id, solveRequests, slide, size), "HWLibs",
                "Failed to resolve symbols");
 
     if (currentKernelVersion() <= MACOS_10_15_X) {
         PenguinWizardry::PatternRouteRequest request{"__ZN16AmdTtlFwServices7getIpFwEjPKcP10_TtlFwInfo", wrapGetIpFw,
                                                      this->orgGetIpFw};
-        PANIC_COND(!request.route(patcher, id, slide, size), "HWLibs", "Failed to route getIpFw");
+        SYSLOG_COND(!request.route(patcher, id, slide, size), "HWLibs", "Failed to route getIpFw");
     }
     else {
         // TODO: Not override the PSP 9 code.
