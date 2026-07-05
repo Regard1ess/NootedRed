@@ -10,15 +10,16 @@
 #include <IOKit/IOTypes.h>
 
 inline CAILResult processSMUFWResponse(const UInt32 msg, const UInt32 value)
+inline CAILResult processSMUFWResponse(const UInt32 msg, const UInt32 value)
 {
-    if (value == kCAILResultUnknownCommand) {
-        SYSLOG("CAIL", "Spoofing success for unknown SMU command 0x%X", msg);
+    if (value > 1 && value != 0xFFFFFFFF) {
+        SYSLOG("CAIL", "Spoofing success for unknown SMU command 0x%X with response 0x%X", msg, value);
         return kCAILResultOK;
     }
 
     switch (value) {
         case kSMUFWResponseNoResponse: return kCAILResultNoResponse;
-        case kSMUFWResponseSuccess   : return kCAILResultOK;
+        case kSMUFWResponseSuccess:    return kCAILResultOK;
         case kSMUFWResponseRejectedBusy:
             SYSLOG("CAIL", "SMU FW command 0x%X rejected; SMU is busy", msg);
             return kCAILResultInvalidParameters;
